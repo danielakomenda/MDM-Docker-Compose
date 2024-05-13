@@ -1,0 +1,31 @@
+
+version: '3.8'
+
+services:
+  ghost:
+    image: ghost:latest
+    container_name: ghost_blog
+    ports:
+      - "2368:2368"
+    environment:
+      database__client: mysql
+      database__connection__host: mariadb
+      database__connection__user: root
+      database__connection__password: example
+      database__connection__database: ghost
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: ghost
+      MYSQL_USER: ghost
+      MYSQL_PASSWORD: example
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+volumes:
+  mariadb_data:
